@@ -162,6 +162,7 @@ class COMP108A1Paging {
 			System.out.println("Queue is empty");
 		} else {
 			array[head] = 0;
+			tail = head;
 			head = (head + 1) % qSize;
 		}
 		return array;
