@@ -78,13 +78,14 @@ class COMP108A1Paging {
 			if (hit == true) { // Nothing needs to happen as it is already in cache.
 				output.hitPattern += "h";
 				output.hitCount += 1;
-			} else { // dequeue (FIFO) and insert the value.
+			}
+			else { // dequeue (FIFO) and insert the value.
 				output.hitPattern += "m";
 				output.missCount += 1;
 				// Dequeue
-				dequeue(cArray);
+				cArray = dequeue(cArray);
 				// Enqueue
-				enqueue(rArray[i], cArray);
+				cArray = enqueue(rArray[i], cArray);
 			}
 		}
 		return output;
@@ -144,24 +145,26 @@ class COMP108A1Paging {
 
 	// Implement a queue with a circular array system. Enqueue adds a value to old tail position.
 	// Increments the tail position with the circular system.
-	static void enqueue(int value, int[] array) {
+	static int[] enqueue(int value, int[] array) {
 		if (array.length == tail) {
 			System.out.println("Queue is Full");
 		} else {
 			array[tail] = value;
 			tail = (tail + 1) % qSize;
 		}
+		return array;
 	}
 
 	// Dequeue sets the front of the queue value to 0/null so it can be used and increments the head along by one
 	// in the circular queue system.
-	static void dequeue(int[] array) {
+	static int[] dequeue(int[] array) {
 		if (tail == head) {
 			System.out.println("Queue is empty");
 		} else {
 			array[head] = 0;
 			head = (head + 1) % qSize;
 		}
+		return array;
 	}
 
 
