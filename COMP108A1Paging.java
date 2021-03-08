@@ -101,7 +101,7 @@ class COMP108A1Paging {
 	// rArray is an array containing the request sequence with rSize entries
 	static COMP108A1Output evictLFU(int[] cArray, int cSize, int[] rArray, int rSize) {
 		COMP108A1Output output = new COMP108A1Output();
-
+		int[] frequency = new int[cSize];
 
 		return output;
 	}
