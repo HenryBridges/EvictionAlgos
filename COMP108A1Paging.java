@@ -30,8 +30,22 @@ class COMP108A1Paging {
 	// rArray is an array containing the request sequence with rSize entries
 	static COMP108A1Output noEvict(int[] cArray, int cSize, int[] rArray, int rSize) {
 		COMP108A1Output output = new COMP108A1Output();
-
-
+		boolean hit = false; // used as a flag to indicate if the element exists in the other array.
+		for(int i = 0; i < rSize ; i++) { // loops through each index of rArray.
+			hit = false; // reset the flag to false after each run through or else will always stay true after its true once.
+			for (int j = 0; j < cSize; j++) { // loops through each index of cArray.
+				if(rArray[i] == cArray[j]){
+					hit = true;
+					break; // break here as don't need to check it exists more than once.
+				}
+			}
+			if(hit == true){
+				output.hitPattern += "h"; // if it exists than it is a hit.
+			}
+			else{
+				output.hitPattern += "m"; // if not then it is a miss.
+			}
+		}
 		return output;
 	}
 
