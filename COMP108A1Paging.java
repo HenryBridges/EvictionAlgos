@@ -78,8 +78,7 @@ class COMP108A1Paging {
 			if (hit == true) { // Nothing needs to happen as it is already in cache.
 				output.hitPattern += "h";
 				output.hitCount += 1;
-			}
-			else { // dequeue (FIFO) and insert the value.
+			} else { // dequeue (FIFO) and insert the value.
 				output.hitPattern += "m";
 				output.missCount += 1;
 				// Dequeue
@@ -138,49 +137,73 @@ class COMP108A1Paging {
 	// rArray is an array containing the request sequence with rSize entries
 	static COMP108A1Output evictLFD(int[] cArray, int cSize, int[] rArray, int rSize) {
 		COMP108A1Output output = new COMP108A1Output();
-
-		return output;
-	}
-
-
-	// Implement a queue with a circular array system. Enqueue adds a value to old tail position.
-	// Increments the tail position with the circular system.
-	static int[] enqueue(int value, int[] array) {
-		if (array.length == tail) {
-			System.out.println("Queue is Full");
-		} else {
-			array[tail] = value;
-			tail = (tail + 1) % qSize;
-		}
-		return array;
-	}
-
-	// Dequeue sets the front of the queue value to 0/null so it can be used and increments the head along by one
-	// in the circular queue system.
-	static int[] dequeue(int[] array) {
-		if (tail == head) {
-			System.out.println("Queue is empty");
-		} else {
-			array[head] = 0;
-			tail = head;
-			head = (head + 1) % qSize;
-		}
-		return array;
-	}
-
-
-	// Method for getting the place of the minimum value in an array.
-	public static int minIndex(int[] array) {
-		int minValue = array[0];
-		int minValuePlace = 0;
-		for (int i = 1; i < array.length; i++) {
-			if (array[i] < minValue) {
-				minValue = array[i];
-				minValuePlace = i;
+		// My idea is to work backwards through the other array and find the first occurrence.
+		int indexOfLatest = 0;
+		int correspondingNum = 0;
+		boolean hit = false; // used as a flag to indicate if the element exists in the other array.
+		for (int j = 0; j < cSize; j++) { // loops through each index of cArray.
+			hit = false; // reset the flag to false after each run through or else will always stay true after its true once.
+			for (int i = rSize; i >= 0; i--) { // loops through each index of rArray.
+				if (cArray[j] == rArray[i]) {
+					hit = true;
+					if (i > indexOfLatest) { // Keeps track of the latest request's index and its value.
+						indexOfLatest = i;
+						correspondingNum = cArray[j];
+					}
+					break; // break here as don't need to check it exists more than once.
+				}
+				if (hit == true) {
+					output.hitPattern += "h";// if it exists than it is a hit.
+					output.hitCount += 1;
+				} else {
+					output.hitPattern += "m"; // if not then it is a miss.
+					output.missCount += 1;
+					int place = indexOfLatest;
+					cArray[place] = rArray[correspondingNum];
+				}
 			}
+			return output;
 		}
-		return minValuePlace;
 	}
 
+
+		// Implement a queue with a circular array system. Enqueue adds a value to old tail position.
+		// Increments the tail position with the circular system.
+		static int[] enqueue ( int value, int[] array){
+			if (array.length == tail) {
+				System.out.println("Queue is Full");
+			} else {
+				array[tail] = value;
+				tail = (tail + 1) % qSize;
+			}
+			return array;
+		}
+
+		// Dequeue sets the front of the queue value to 0/null so it can be used and increments the head along by one
+		// in the circular queue system.
+		static int[] dequeue ( int[] array){
+			if (tail == head) {
+				System.out.println("Queue is empty");
+			} else {
+				array[head] = 0;
+				tail = head;
+				head = (head + 1) % qSize;
+			}
+			return array;
+		}
+
+
+		// Method for getting the place of the minimum value in an array.
+		public static int minIndex ( int[] array){
+			int minValue = array[0];
+			int minValuePlace = 0;
+			for (int i = 1; i < array.length; i++) {
+				if (array[i] < minValue) {
+					minValue = array[i];
+					minValuePlace = i;
+				}
+			}
+			return minValuePlace;
+		}
 }
 
