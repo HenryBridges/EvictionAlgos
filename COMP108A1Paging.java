@@ -3,21 +3,28 @@
 // Note: You are allowed to add additional methods if you need.
 // Coded by Prudence Wong 2020-12-15
 //
-// Name:HenryBridges
+// Name:Henry Bridges
 // Student ID:201495180
 //
 // Time Complexity and explanation: You can use the following variables for easier reference.
 // n denotes the number of requests, p denotes the size of the cache
-// n and p can be different and there is no assumption which one is larger
-//
+// n and p can be different and there is no assumption which one is larger.
+
 // noEvict():
-//
+// I think the TC for noEvict is just O(np) as it has to loop through all of n and all of p (in worst case) before ending.
+
 // evictFIFO():
-//
+/* I think the TC for evictFIFO is also O(np), it has the same double for loop looping over requests and cache and the
+ use of enqueue/dequeue is constant O(1) and therefore, O(np) is the highest on computational hierarchy. */
+
 // evictLFU():
-//
+/*  LFU uses an outside method to get the minimum value's index, it goes over the frequency array once.
+    The same can be said for initialising the frequency array with 1's, frequency is always the same size as p.
+    So, the TC in my opinion is O(np) again as we can ignore the + 2p as this is not greater than np. */
+
 // evictLFD():
-//
+/* I think the TC is O(n^2p^2) as it loops over both requests and cache in the method but in the LFD method i use it loops
+   over them both again - this loop occurs within the 2 loops so therefore p and n are raised to the power 2. */
 
 
 class COMP108A1Paging {
